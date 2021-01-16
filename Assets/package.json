@@ -1,0 +1,7 @@
+{
+    "name": "com.cake.unity_utils",
+    "displayName": "Unity Utils",
+    "version": "0.1.2",
+    "unity": "2020.2",
+    "description": "A collection of utilities to speed up your Unity development."
+}
