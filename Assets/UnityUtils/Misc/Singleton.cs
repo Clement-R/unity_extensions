@@ -7,13 +7,10 @@ using UnityEngine;
 namespace Cake.Utils
 {
     /// <summary>
-    /// Monobehaviour based singleton class that allows only
-    /// internal access to the singleton itself. Any external
-    /// access must be dictated/allowed by the inheriting class.
+    /// Monobehaviour based singleton class.
     /// </summary>
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-
         /// <summary>
         /// Returns whether there is no active singleton (TRUE) 
         /// or if one is active and assigned (FALSE)
@@ -26,26 +23,26 @@ namespace Cake.Utils
             }
         }
 
-        protected static T Instance
+        public static T Instance
         {
             get
             {
                 if (IsNull)
                 {
-                    throw new Exception(string.Format(
-                        "No singleton of type `{0}' has been initialized!",
-                        typeof(T).Name
-                    ));
+                    var go = new GameObject($"{typeof(T)} Singleton");
+                    m_instance = go.AddComponent<T>();
                 }
+
                 return m_instance;
             }
         }
-        private static T m_instance = null;
 
         [SerializeField, Tooltip("If the singleton already exists and is destroyed, " +
             "does it destroy only the component (FALSE) or will it also destroy " +
             "the GameObject the component is attached to (TRUE).")]
-        private bool m_destroyGameObject = false;
+        protected bool m_destroyGameObject = true;
+
+        private static T m_instance = null;
 
         private void Awake()
         {
